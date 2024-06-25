@@ -1,17 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express';
+import { router } from 'router'
 import { getHealthStatus } from 'services/healthService'
 
 export const app = express();
 
 app.use(express.json());
-
-app.get('/', (req, res) => {
-    res.send('<h1>Wave app is running.</h1>')
-})
-
-app.get('/health', async (req, res) => {
-    res.json(await getHealthStatus(req.query.status?.toString()))
-})
+app.use(router);
 
 // Error handling middleware
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
