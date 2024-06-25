@@ -9,7 +9,6 @@ export async function up(knex: Knex): Promise<void> {
 		console.log(`Creating ${TABLE_NAME} table.`);
 
         return knex.schema.createTable(TABLE_NAME, table => {
-            table.increments('id').primary()
             table.string('timesheetId').notNullable().primary()
             table.timestamp('uploadedAt').notNullable()
         })
