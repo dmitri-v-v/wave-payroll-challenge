@@ -1,6 +1,6 @@
 export interface JobGroup {
-    id: number;
-    name: string;
+    id: number
+    name: string
     rate: number
 }
 
@@ -8,5 +8,5 @@ export interface JobGroup {
  * Mapping from a jobGroupId from the database to its name value.
  */
 export type JobGroupMap = {
-    [key: string]: number;
-};
+    [key: string]: number
+}

@@ -13,14 +13,16 @@ export const checkIfTimesheetUploadExists = async (timesheetId: string): Promise
 
 export const recordTimesheetUpload = async (timesheetId: string) => {
     try {
-        const [record] = await db('TimesheetUpload').insert({
-            timesheetId: timesheetId,
-            uploadedAt: Date.now()
-        }).returning("*") // To enable logging inserted values
+        const [record] = await db('TimesheetUpload')
+            .insert({
+                timesheetId: timesheetId,
+                uploadedAt: Date.now(),
+            })
+            .returning('*') // To enable logging inserted values
 
         console.log('Successfully added TimesheetUpload record', record)
     } catch (err) {
-        console.error("Failed to insert TimesheetUpload record", err)
+        console.error('Failed to insert TimesheetUpload record', err)
         throw new Error()
     }
 }
@@ -35,21 +37,24 @@ export const importTimesheetData = async (timesheetId: string, file: Express.Mul
             // The first line read will be put into the header var:
             if (!header) {
                 header = csvLine
-            } else { // Header already exists, so we're processing the CSV data now:
+            } else {
+                // Header already exists, so we're processing the CSV data now:
                 const hoursDecimal = parseFloat(csvLine[1])
 
                 try {
-                    const [row] = await db('Timesheet').insert({
-                        date: parseDate(csvLine[0]),
-                        hours: isNaN(hoursDecimal) ? 0.0 : hoursDecimal,
-                        employeeId: csvLine[2],
-                        jobGroupId: jobGroups[csvLine[3]],
-                        timesheetId: timesheetId
-                    })
-                    // If a row with that date/employeeId/jobGroupId combo already exists, update (merge) the existing
-                    // values with the onest from this import:
-                    .onConflict(['date', 'employeeId', 'jobGroupId']).merge()
-                    .returning('*')
+                    const [row] = await db('Timesheet')
+                        .insert({
+                            date: parseDate(csvLine[0]),
+                            hours: isNaN(hoursDecimal) ? 0.0 : hoursDecimal,
+                            employeeId: csvLine[2],
+                            jobGroupId: jobGroups[csvLine[3]],
+                            timesheetId: timesheetId,
+                        })
+                        // If a row with that date/employeeId/jobGroupId combo already exists, update (merge) the existing
+                        // values with the onest from this import:
+                        .onConflict(['date', 'employeeId', 'jobGroupId'])
+                        .merge()
+                        .returning('*')
 
                     console.log(`Successfully added record ${JSON.stringify(csvLine)}`)
                 } catch (error) {

@@ -12,7 +12,7 @@ export const getJobGroupMap = async (): Promise<JobGroupMap> => {
 
         return jobGroupMap
     } catch (error) {
-        console.error("Failed to build JobGroupMap", error)
+        console.error('Failed to build JobGroupMap', error)
         throw new Error()
     }
 }
