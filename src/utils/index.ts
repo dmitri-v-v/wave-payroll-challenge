@@ -1,15 +1,11 @@
 const TIMESHEET_FILENAME_FORMAT = /time-report-(\d+)\.csv/
 
-export const extractTimesheetIdFromFilename = (filename: string): number | null => {
+export const extractTimesheetIdFromFilename = (filename: string): string | null => {
     const match = filename.match(TIMESHEET_FILENAME_FORMAT)
 
-    if (match) {
-        const id = Number(match[1])
-
-        if (!isNaN(id)) {
-            return id
-        }
-    }
-
-    return null;
+    return match? match[1] : null
+}
+ export const parseDate = (dateString: string): Date => {
+    const [day, month, year] = dateString.split('/').map(Number);
+    return new Date(year, month - 1, day);
 }

@@ -1,4 +1,4 @@
-import type { Knex } from "knex";
+import type { Knex } from 'knex'
 
 const TABLE_NAME = 'JobGroup'
 
@@ -6,7 +6,7 @@ export async function up(knex: Knex): Promise<void> {
     const tableExists = await knex.schema.hasTable(TABLE_NAME);
 
     if (!tableExists) {
-		console.log(`Creating ${TABLE_NAME} table.`);
+		console.log(`Creating ${TABLE_NAME} table.`)
 
         return knex.schema.createTable(TABLE_NAME, table => {
             table.increments('id').primary()

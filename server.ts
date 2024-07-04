@@ -14,7 +14,7 @@ app.listen(PORT, async () => {
         const [seeds]: [Array<string>] = await db.seed.run();
 
 		seeds.forEach(seed => {
-			console.log(`Seeded data from file ${seed}.`);
+			console.log(`Processed seed file ${seed}.`);
 		})
 
         console.log(`Server listening on http://localhost:${PORT}`)
